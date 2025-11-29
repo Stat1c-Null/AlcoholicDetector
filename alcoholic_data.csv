@@ -1,4 +1,4 @@
-Drinks/Session,Drunk/Month,AvgAlcohol,Thoughts/Day,Duration/Hrs,MorningDrink/Week,Label
+Drinks/Session,Drunk/Month,AvgAlcohol,Thoughts/Week,Duration/Hrs,MorningDrink/Week,Label
 3,6,0.14,0,3.2,2,non-alcoholic
 12,9,0.32,14,8.9,11,alcoholic
 4,5,0.09,1,1.5,0,non-alcoholic
