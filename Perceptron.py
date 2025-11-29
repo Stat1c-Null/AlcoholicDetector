@@ -32,13 +32,66 @@ class Perceptron(object):
     correct_predictions = 0
     for inputs, label in zip(test_inputs, test_labels):
       print("Evaluating input:", inputs)
-      print(type(inputs))
       prediction = self.predict(inputs)
       if prediction == label:
         correct_predictions += 1
     accuracy = correct_predictions / len(test_labels)
     return accuracy
   
+  #Of all samples predicted as positive, how many were actually positive
+  def precision(self, test_inputs, test_labels):
+    true_positives = 0
+    false_positives = 0
+    for inputs, label in zip(test_inputs, test_labels):
+      prediction = self.predict(inputs)
+      if prediction == 1:
+        if label == 1:
+          true_positives += 1
+        else:
+          false_positives += 1
+
+    precision = true_positives / (true_positives + false_positives)
+    return precision
+  
+  #Of all the actual positive samples, hiow many were correctly predicted
+  def recall(self, test_inputs, test_labels):
+    true_positives = 0
+    false_negatives = 0
+    for inputs, label in zip(test_inputs, test_labels):
+      prediction = self.predict(inputs)
+      if label == 1:
+        if prediction == 1:
+          true_positives += 1
+        else:
+          false_negatives += 1
+
+    recall = true_positives / (true_positives + false_negatives)
+    return recall
+  
+  #Harmonic mean of precision and recall. Gives single score that balances both metrics.
+  def f1_score(self, precision, recall):
+    f1_score = 2 * (precision * recall) / (precision + recall)
+    return f1_score
+  
+  #Shows how well perceptron performs across different decisions
+  def ROC(self, test_inputs, test_labels):
+    true_negatives = 0
+    false_positives = 0
+    for inputs, label in zip(test_inputs, test_labels):
+      prediction = self.predict(inputs)
+      if label == 0:
+        if prediction == 0:
+          true_negatives += 1
+      if label == 0:
+        if prediction == 1:
+          false_positives += 1
+
+    true_positive_rate = self.recall(test_inputs, test_labels) #Y-Axis
+    false_positive_rate = false_positives / (false_positives + true_negatives) #X-Axis
+
+    AUC = (1 + true_positive_rate - false_positive_rate) / 2
+    return AUC
+
   def check_alcoholic(self, input_data):
     prediction = self.predict(input_data)
     if prediction == 1:

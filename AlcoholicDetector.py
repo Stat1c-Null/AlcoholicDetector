@@ -51,8 +51,25 @@ perceptron.train(x_train, y_train, epochs=100)
 end_training = t.time()
 print(f"Training time: {end_training - start_training:.2f} seconds")
 
+#Accuracy
 accuracy = perceptron.evaluate(x_test, y_test)
 print(f"Model accuracy on test set: {accuracy * 100:.2f}%")
+
+#Precision
+precision = perceptron.precision(x_test, y_test)
+print(f"Model precision on test set: {precision * 100:.2f}%")
+
+#Recall
+recall = perceptron.recall(x_test, y_test)
+print(f"Model recall on test set: {recall * 100:.2f}%")
+
+#F1 score
+score = perceptron.f1_score(precision, recall)
+print(f"Model F1 score on test set: {score * 100:.2f}%")
+
+#Receiver Operating Characteristic (ROC) Curve and AUC
+roc_auc = perceptron.ROC(x_test, y_test)
+print(f"Model ROC AUC on test set: {roc_auc:.2f}")
 
 analyze = input("Do you want to analyze your drinking habits? (yes/no): ").strip().lower()
 while analyze == "yes":
