@@ -14,6 +14,7 @@ class Perceptron(object):
     return self.activation_function(weighted_sum)
 
   def train(self, training_inputs, labels, epochs):
+    self.weights = np.zeros(len(training_inputs[0]) + 1)  # Initialize weights to zeros, +1 for bias weight
     for iteration in range(epochs):
       error = 0
       for inputs, label in zip(training_inputs, labels):
@@ -25,12 +26,22 @@ class Perceptron(object):
         #t.sleep(0.1)
 
         self.weights[0] += self.learning_rate * error  # Update bias weight
+    return self
   
   def evaluate(self, test_inputs, test_labels):
     correct_predictions = 0
     for inputs, label in zip(test_inputs, test_labels):
+      print("Evaluating input:", inputs)
+      print(type(inputs))
       prediction = self.predict(inputs)
       if prediction == label:
         correct_predictions += 1
     accuracy = correct_predictions / len(test_labels)
     return accuracy
+  
+  def check_alcoholic(self, input_data):
+    prediction = self.predict(input_data)
+    if prediction == 1:
+      print("The person is predicted to be Alcoholic.")
+    else:
+      print("The person is predicted to be Non-Alcoholic.")

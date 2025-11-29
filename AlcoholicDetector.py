@@ -15,6 +15,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 import numpy as np
 import Perceptron as p
+import time as t
 
 df = pd.read_csv('alcoholic_data.csv')
 df = shuffle(df)
@@ -43,4 +44,24 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, train_s
 labels_number = x.shape[1]
 
 perceptron = p.Perceptron(input_size=labels_number, learning_rate=0.02)
+
+start = input("Press Enter to start training the Perceptron model...")
+start_training = t.time()
 perceptron.train(x_train, y_train, epochs=100)
+end_training = t.time()
+print(f"Training time: {end_training - start_training:.2f} seconds")
+
+accuracy = perceptron.evaluate(x_test, y_test)
+print(f"Model accuracy on test set: {accuracy * 100:.2f}%")
+
+analyze = input("Do you want to analyze your drinking habits? (yes/no): ").strip().lower()
+while analyze == "yes":
+  drinksConsumed = int(input("How many drinks do you consume when drinking? "))
+  drunkMonth = int(input("How many times do you get drunk per month? "))
+  abv = float(input("What is the average amount of alcohol (ABV) in a drink? Ranges from (0.05 - 0.50) "))
+  alcThoughts = int(input("How many times do you think about alcohol per week? "))
+  drinkingDuration = int(input("What is the duration of your drinking sessions in hours? "))
+  morningDrinking = int(input("How many times do you drink in the morning per month? "))
+  user_input = np.array([drinksConsumed, drunkMonth, abv, alcThoughts, drinkingDuration, morningDrinking])
+  perceptron.check_alcoholic(user_input)
+  analyze = input("Do you want to analyze another drinking habit? (yes/no): ").strip().lower()
